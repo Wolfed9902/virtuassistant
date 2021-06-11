@@ -42,4 +42,12 @@ def listentest():
     print("User said: {}".format(query))
     speak("User said " + query)
 
-listentest()
+def voiceselection():
+    select = listen()
+    if select == "1":
+        print("Listen Test")
+        listentest()
+    elif select == "2":
+        speak("Have a nice day.")
+
+voiceselection()
