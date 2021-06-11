@@ -28,7 +28,6 @@ def listen():
         print("Recognizing...")
         speak('Recognizing')
         query = r.recognize_google(audio, language='en-US')
-        print("User said: {}".format(query))
     except sr.UnknownValueError:
         print("I cannot hear you")
         speak("I cannot hear you")
@@ -38,5 +37,9 @@ def listen():
         return "None"
     return query
 
-x = listen()
-speak(x)
+def listentest():
+    query = listen()
+    print("User said: {}".format(query))
+    speak("User said " + query)
+
+listentest()
