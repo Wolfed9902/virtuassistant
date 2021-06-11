@@ -1,6 +1,5 @@
-# Assistant
+# Virtuassistant
 # Created 6/10/21
-#
 
 import pyttsx3
 import speech_recognition as sr
@@ -37,17 +36,17 @@ def listen():
         return "None"
     return query
 
-def listentest():
+def listen_test():
     query = listen()
     print("User said: {}".format(query))
     speak("User said " + query)
 
-def voiceselection():
+def voice_selection():
     select = listen()
     if select == "1":
         print("Listen Test")
-        listentest()
+        listen_test()
     elif select == "2":
         speak("Have a nice day.")
 
-voiceselection()
+voice_selection()
