@@ -4,9 +4,11 @@
 # Imports
 
 from bs4 import BeautifulSoup
+from googlesearch import search
 import pyttsx3
 import speech_recognition as sr
 import requests
+
 
 # Definitions
 headers = {
@@ -59,6 +61,9 @@ def voice_selection():
         speak("Have a nice day.")
     elif select == "location":
         print(get_location())
+    elif select == "search":
+        query = listen()
+        print(google_search(query))
 
 def get_location():
     try:
@@ -72,5 +77,11 @@ def get_location():
     except Exception as e:
         print('Error: location could not be retrieved.')
         speak('Error, unknown location')
+
+def google_search(query):
+    link = []
+    for i in search(query, tld="ca", stop=10, pause=2):
+        link.append(i)
+    return link
 
 voice_selection()
