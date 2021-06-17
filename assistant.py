@@ -54,10 +54,10 @@ def listen_test():
 
 def voice_selection():
     select = listen()
-    if select == "1":
+    if select == "test":
         print("Listen Test")
         listen_test()
-    elif select == "2":
+    elif select == "goodbye":
         speak("Have a nice day.")
     elif select == "location":
         print(get_location())
