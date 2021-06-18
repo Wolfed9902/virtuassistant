@@ -34,10 +34,11 @@ def listen():
         r.pause_threshold = 1
         r.adjust_for_ambient_noise(source, duration=1)
         audio = r.listen(source)
+    user_input = ""
     try:
         print("Recognizing...")
         speak('Recognizing')
-        query = r.recognize_google(audio, language='en-US')
+        user_input = r.recognize_google(audio, language='en-US')
     except sr.UnknownValueError:
         print("I cannot hear you")
         speak("I cannot hear you")
@@ -45,25 +46,25 @@ def listen():
         print("Say that again please")
         speak("Say that again please")
         return "None"
-    return query
+    return user_input
 
 def listen_test():
-    query = listen()
-    print("User said: {}".format(query))
-    speak("User said " + query)
+    user_input = listen()
+    print("User said: {}".format(user_input))
+    speak("User said " + user_input)
 
 def voice_selection():
-    select = listen()
-    if select == "test":
+    user_input = listen()
+    if "listen test" in user_input:
         print("Listen Test")
         listen_test()
-    elif select == "goodbye":
+    elif "goodbye" in user_input:
         speak("Have a nice day.")
-    elif select == "location":
+    elif "location" in user_input:
         print(get_location())
-    elif select == "search":
-        query = listen()
-        print(google_search(query))
+    elif "search" in user_input:
+        user_input = listen()
+        print(google_search(user_input))
 
 def get_location():
     try:
@@ -78,9 +79,9 @@ def get_location():
         print('Error: location could not be retrieved.')
         speak('Error, unknown location')
 
-def google_search(query):
+def google_search(user_input):
     link = []
-    for i in search(query, tld="ca", stop=10, pause=2):
+    for i in search(user_input, tld="ca", stop=10, pause=2):
         link.append(i)
     return link
 
