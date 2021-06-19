@@ -11,21 +11,26 @@ import requests
 
 
 # Definitions
+
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36'}
 URL = ''
+running = True
 
 # Initialize Text to Speech
+
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
 
 # Speak Function
+
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
 # Listen to user input
+
 def listen():
     r = sr.Recognizer()
     with sr.Microphone() as source:
@@ -48,23 +53,29 @@ def listen():
         return "None"
     return user_input
 
-def listen_test():
+def listen_test(): # listen/response for testing
     user_input = listen()
     print("User said: {}".format(user_input))
     speak("User said " + user_input)
 
 def voice_selection():
+    global running
     user_input = listen()
     if "listen test" in user_input:
         print("Listen Test")
         listen_test()
-    elif "goodbye" in user_input:
-        speak("Have a nice day.")
     elif "location" in user_input:
         print(get_location())
     elif "search" in user_input:
         user_input = listen()
         print(google_search(user_input))
+    elif "quit" or "goodbye" in user_input:
+        running = False
+        print("Have a nice day.")
+        speak("Have a nice day.")
+
+    if (running == True):
+        voice_selection()
 
 def get_location():
     try:
@@ -84,5 +95,7 @@ def google_search(user_input):
     for i in search(user_input, tld="ca", stop=10, pause=2):
         link.append(i)
     return link
+
+# Main
 
 voice_selection()
