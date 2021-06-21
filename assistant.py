@@ -5,6 +5,7 @@
 
 from bs4 import BeautifulSoup
 from googlesearch import search
+from datetime import datetime
 import pyttsx3
 import speech_recognition as sr
 import requests
@@ -66,6 +67,10 @@ def voice_selection():
         listen_test()
     elif "location" in user_input:
         print(get_location())
+    elif "time" in user_input:
+        current_time = (datetime.now()).strftime("%H:%M:%S") # obtains current time in H,M,S format
+        print(current_time)
+        speak(current_time)
     elif "search" in user_input:
         user_input = listen()
         print(google_search(user_input))
