@@ -59,6 +59,8 @@ def listen_test(): # listen/response for testing
     print("User said: {}".format(user_input))
     speak("User said " + user_input)
 
+# -------------Voice Selection-------------- #
+
 def voice_selection():
     global running
     user_input = listen()
@@ -68,7 +70,7 @@ def voice_selection():
     elif "location" in user_input:
         print(get_location())
     elif "time" in user_input:
-        current_time = (datetime.now()).strftime("%H:%M:%S") # obtains current time in H,M,S format
+        current_time = (datetime.now()).strftime("%X") # obtains current time in H,M,S format
         print(current_time)
         speak(current_time)
     elif "search" in user_input:
@@ -81,6 +83,15 @@ def voice_selection():
 
     if (running == True):
         voice_selection()
+
+# ------------------------------------------ #
+
+def greeting():
+    greeting_time = (datetime.now()).strftime("%H")
+    if int(greeting_time) >= 12:
+        speak("Good Afternoon")
+    else:
+        speak("Good Morning")
 
 def get_location():
     try:
@@ -103,4 +114,5 @@ def google_search(user_input):
 
 # Main
 
+greeting()
 voice_selection()
