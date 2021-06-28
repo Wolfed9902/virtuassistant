@@ -8,7 +8,8 @@ from googlesearch import search
 from datetime import datetime
 import pyttsx3
 import speech_recognition as sr
-import requests
+import requests, json
+import config
 
 
 # Definitions
@@ -76,6 +77,8 @@ def voice_selection():
     elif "search" in user_input:
         user_input = listen()
         print(google_search(user_input))
+    elif "weather" in user_input:
+        weather()
     elif "quit" or "goodbye" in user_input:
         running = False
         print("Have a nice day.")
@@ -101,7 +104,9 @@ def get_location():
         city = soup.find(class_='city').get_text()
         region = soup.find(class_='region_name').get_text()
         country = soup.find(class_='country_name').get_text()
-        return city, region, country
+        latitude = soup.find(class_='lat').get_text()
+        longitude = soup.find(class_='lng').get_text()
+        return city, region, country, latitude, longitude
     except Exception as e:
         print('Error: location could not be retrieved.')
         speak('Error, unknown location')
@@ -111,6 +116,37 @@ def google_search(user_input):
     for i in search(user_input, tld="ca", stop=10, pause=2):
         link.append(i)
     return link
+
+def weather():
+    try:
+
+        api_key = config.wea_api_key # Must have API key for OpenWeatherMap located in config.py
+        location = get_location()
+        lat = location[3]
+        lon = location[4]
+        base_url = 'http://api.openweathermap.org/data/2.5/weather?'
+        full_url = base_url + 'lat=' + lat + '&lon=' + lon + '&appid=' + api_key
+        print(full_url)
+        response = requests.get(full_url).json()
+
+        if response["cod"] != "404":
+
+            main = response["main"]
+            temp = main["temp"] # Returns temp in Kelvin
+            temp = int((temp - 273.15) * 9/5 + 32) # Kelvin to Fahrenheit
+            w = response["weather"]
+            desc = w[0]["description"] # Returns weather description
+
+            print("Temperature: " + str(temp) + "\nDescription: " + str(desc))
+            speak(str(temp) + " degrees Fahrenheit")
+            speak(str(desc))
+
+        else:
+            return False
+
+    except Exception as e:
+        print('Error: weather could not be retrieved.')
+        speak('Error')
 
 # Main
 
