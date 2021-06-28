@@ -37,8 +37,8 @@ def listen():
     with sr.Microphone() as source:
         speak("I'm Listening")
         print("Listening...")
-        r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source, duration=1)
+        r.pause_threshold = .5
+        r.adjust_for_ambient_noise(source, duration=.5)
         audio = r.listen(source)
     user_input = ""
     try:
