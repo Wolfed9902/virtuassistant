@@ -79,6 +79,8 @@ def voice_selection():
         print(google_search(user_input))
     elif "weather" in user_input:
         weather()
+    elif "Bitcoin" in user_input:
+        btc_price()
     elif "quit" or "goodbye" in user_input:
         running = False
         print("Have a nice day.")
@@ -117,16 +119,25 @@ def google_search(user_input):
         link.append(i)
     return link
 
+def btc_price():
+    try:
+        URL = 'https://api.coindesk.com/v1/bpi/currentprice.json'
+        response = requests.get(URL).json()
+        print(response["bpi"]["USD"]["rate"])
+    except Exception as e:
+        print('Error: price could not be retrieved.')
+        speak('Error')
+
+
+
 def weather():
     try:
-
         api_key = config.wea_api_key # Must have API key for OpenWeatherMap located in config.py
         location = get_location()
         lat = location[3]
         lon = location[4]
         base_url = 'http://api.openweathermap.org/data/2.5/weather?'
         full_url = base_url + 'lat=' + lat + '&lon=' + lon + '&appid=' + api_key
-        print(full_url)
         response = requests.get(full_url).json()
 
         if response["cod"] != "404":
