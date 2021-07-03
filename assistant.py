@@ -10,6 +10,7 @@ import pyttsx3
 import speech_recognition as sr
 import requests, json
 import config
+import socket
 
 
 # Definitions
@@ -94,9 +95,9 @@ def voice_selection():
 def greeting():
     greeting_time = (datetime.now()).strftime("%H")
     if int(greeting_time) >= 12:
-        speak("Good Afternoon")
+        speak("Good Afternoon" + socket.gethostname())
     else:
-        speak("Good Morning")
+        speak("Good Morning" + socket.gethostname())
 
 def get_location():
     try:
