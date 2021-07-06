@@ -82,6 +82,8 @@ def voice_selection():
         weather()
     elif "Bitcoin" in user_input:
         btc_price()
+    elif "math" in user_input:
+        math_query()
     elif "quit" or "goodbye" in user_input:
         running = False
         print("Have a nice day.")
@@ -159,6 +161,20 @@ def weather():
     except Exception as e:
         print('Error: weather could not be retrieved.')
         speak('Error')
+
+def math_query():
+    print("Math(+, -)")
+    user_input = listen()
+    sentence = user_input.lower().split()
+    if "+" in sentence[1:]:
+        first = sentence[sentence.index('+')-1]
+        second = sentence[sentence.index('+')+1]
+        result = float(first) + float(second)
+    elif "-" in sentence[1:]:
+        first = sentence[sentence.index('-')-1]
+        second = sentence[sentence.index('-')+1]
+        result = float(first) - float(second)
+    print(result)
 
 # Main
 
