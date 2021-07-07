@@ -162,19 +162,33 @@ def weather():
         print('Error: weather could not be retrieved.')
         speak('Error')
 
-def math_query():
-    print("Math(+, -)")
-    user_input = listen()
-    sentence = user_input.lower().split()
-    if "+" in sentence[1:]:
-        first = sentence[sentence.index('+')-1]
-        second = sentence[sentence.index('+')+1]
-        result = float(first) + float(second)
-    elif "-" in sentence[1:]:
-        first = sentence[sentence.index('-')-1]
-        second = sentence[sentence.index('-')+1]
-        result = float(first) - float(second)
-    print(result)
+def math_query(): # perform simple math operations
+    try:
+        print("Math(+, -, *, /)")
+        user_input = listen()
+        sentence = user_input.lower().split()
+        if "+" in sentence[1:]:
+            first = sentence[sentence.index('+')-1]
+            second = sentence[sentence.index('+')+1]
+            result = float(first) + float(second)
+        elif "-" in sentence[1:]:
+            first = sentence[sentence.index('-')-1]
+            second = sentence[sentence.index('-')+1]
+            result = float(first) - float(second)
+        elif "/" in sentence[1:]:
+            first = sentence[sentence.index('/')-1]
+            second = sentence[sentence.index('/')+1]
+            result = float(first) / float(second)
+        elif "*" in sentence[1:]:
+            first = sentence[sentence.index('*')-1]
+            second = sentence[sentence.index('*')+1]
+            result = float(first) * float(second)
+        print(result)
+        speak(str(result))
+
+    except Exception as e:
+        print('Error.') # TO-DO: Better error handling and error messages.
+        speak('Error')
 
 # Main
 
