@@ -97,9 +97,11 @@ def voice_selection():
 def greeting():
     greeting_time = (datetime.now()).strftime("%H")
     if int(greeting_time) >= 12:
-        speak("Good Afternoon" + socket.gethostname())
+        print("Good Afternoon " + socket.gethostname())
+        speak("Good Afternoon " + socket.gethostname())
     else:
-        speak("Good Morning" + socket.gethostname())
+        print("Good Morning " + socket.gethostname())
+        speak("Good Morning " + socket.gethostname())
 
 def get_location():
     try:
