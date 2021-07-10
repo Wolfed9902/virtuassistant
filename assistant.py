@@ -11,6 +11,7 @@ import speech_recognition as sr
 import requests, json
 import config
 import socket
+import random
 
 
 # Definitions
@@ -84,6 +85,10 @@ def voice_selection():
         btc_price()
     elif "math" in user_input:
         math_query()
+    elif "dice" in user_input:
+        result = roll_dice()
+        print(result)
+        speak(result)
     elif "quit" or "goodbye" in user_input:
         running = False
         print("Have a nice day.")
@@ -102,6 +107,7 @@ def greeting():
     else:
         print("Good Morning " + socket.gethostname())
         speak("Good Morning " + socket.gethostname())
+
 
 def get_location():
     try:
@@ -124,15 +130,28 @@ def google_search(user_input):
         link.append(i)
     return link
 
+def roll_dice():
+    try:
+        print("Number of Sides?")
+        speak("How many sides?")
+        user_input = listen()
+        print('Rolling')
+        result = random.randint(1,int(user_input))
+        return result
+
+    except Exception as e:
+        print('Error: Number of sides must be Integer')
+        speak('Error')
+
 def btc_price():
     try:
         URL = 'https://api.coindesk.com/v1/bpi/currentprice.json'
         response = requests.get(URL).json()
         print(response["bpi"]["USD"]["rate"])
+
     except Exception as e:
         print('Error: price could not be retrieved.')
         speak('Error')
-
 
 
 def weather():
@@ -164,6 +183,7 @@ def weather():
         print('Error: weather could not be retrieved.')
         speak('Error')
 
+
 def math_query(): # perform simple math operations
     try:
         print("Math(+, -, *, /)")
@@ -191,6 +211,7 @@ def math_query(): # perform simple math operations
     except Exception as e:
         print('Error.') # TO-DO: Better error handling and error messages.
         speak('Error')
+
 
 # Main
 
