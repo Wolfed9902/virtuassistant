@@ -147,7 +147,10 @@ def btc_price():
     try:
         URL = 'https://api.coindesk.com/v1/bpi/currentprice.json'
         response = requests.get(URL).json()
-        print(response["bpi"]["USD"]["rate"])
+        print('Current Price [USD, GBP, EUR]:')
+        print('$' + response["bpi"]["USD"]["rate"])
+        print('£' + response["bpi"]["GBP"]["rate"])
+        print('€' + response["bpi"]["EUR"]["rate"])
 
     except Exception as e:
         print('Error: price could not be retrieved.')
