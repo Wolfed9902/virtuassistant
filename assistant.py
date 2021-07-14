@@ -1,5 +1,6 @@
 # Virtuassistant
 # Created 6/10/21
+# By Dylan Wolfe (wolfed9902)
 
 # Imports
 
@@ -57,7 +58,9 @@ def listen():
         return "None"
     return user_input
 
-def listen_test(): # listen/response for testing
+# Listen/response for testing
+
+def listen_test():
     user_input = listen()
     print("User said: {}".format(user_input))
     speak("User said " + user_input)
@@ -99,7 +102,9 @@ def voice_selection():
 
 # ------------------------------------------ #
 
-def greeting():
+# ----------------Functions----------------- #
+
+def greeting(): # Greets user according to time of day
     greeting_time = (datetime.now()).strftime("%H")
     if int(greeting_time) >= 12:
         print("Good Afternoon " + socket.gethostname())
@@ -109,7 +114,7 @@ def greeting():
         speak("Good Morning " + socket.gethostname())
 
 
-def get_location():
+def get_location(): # Retrieves location (city, region, etc)
     try:
         URL = 'https://iplocation.com/'
         page = requests.get(URL, headers=headers)
@@ -124,13 +129,13 @@ def get_location():
         print('Error: location could not be retrieved.')
         speak('Error, unknown location')
 
-def google_search(user_input):
+def google_search(user_input): # Performs a google qeury according to input and returns results
     link = []
     for i in search(user_input, tld="ca", stop=10, pause=2):
         link.append(i)
     return link
 
-def roll_dice():
+def roll_dice(): # Selects a random integer from range of 1 to X.
     try:
         print("Number of Sides?")
         speak("How many sides?")
@@ -143,7 +148,7 @@ def roll_dice():
         print('Error: Number of sides must be Integer')
         speak('Error')
 
-def btc_price():
+def btc_price(): # Returns current price of Bitcoin
     try:
         URL = 'https://api.coindesk.com/v1/bpi/currentprice.json'
         response = requests.get(URL).json()
@@ -151,13 +156,14 @@ def btc_price():
         print('$' + response["bpi"]["USD"]["rate"])
         print('£' + response["bpi"]["GBP"]["rate"])
         print('€' + response["bpi"]["EUR"]["rate"])
+        print('(Powered by CoinDesk)')
 
     except Exception as e:
         print('Error: price could not be retrieved.')
         speak('Error')
 
 
-def weather():
+def weather(): # Returns weather based on location (calls get_location())
     try:
         api_key = config.wea_api_key # Must have API key for OpenWeatherMap located in config.py
         location = get_location()
@@ -187,7 +193,7 @@ def weather():
         speak('Error')
 
 
-def math_query(): # perform simple math operations
+def math_query(): # Perform simple math operations
     try:
         print("Math(+, -, *, /)")
         user_input = listen()
@@ -215,8 +221,9 @@ def math_query(): # perform simple math operations
         print('Error.') # TO-DO: Better error handling and error messages.
         speak('Error')
 
+# ------------------------------------------ #
 
-# Main
+# ------------------Main-------------------- #
 
 greeting()
 voice_selection()
